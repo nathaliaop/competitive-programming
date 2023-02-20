@@ -1,0 +1,122 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+\usepackage[top=2cm, bottom=1.5cm, left=1cm, right=1cm]{geometry}
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{ballblue}{rgb}{0.0, 0.0, 0.8}
+
+\lstset{
+   language=c++,
+   tabsize=4,
+   commentstyle=\color{gray},
+   keywordstyle=\color{ballblue},
+   numberstyle=\tiny\color{codegray},
+   stringstyle=\color{codepurple},
+   basicstyle=\ttfamily\footnotesize,
+   breakatwhitespace=false,
+   breaklines=true,
+   captionpos=b,
+   keepspaces=true,
+   numbers=left,
+   numbersep=5pt,
+   showspaces=false,
+   showstringspaces=false,
+   showtabs=false,
+   extendedchars=false,
+   inputencoding=utf8,
+}
+
+\newcommand\includes[2]{ % Thanks to joseleite19 and Tiagosf00 icpc notebook on github
+   \subsection{#1}
+   \lstinputlisting{#2}
+}
+
+\title{Notebook - Maratona de Programação}
+\author{As Meninas do Bairro das Pitangueiras}
+\date{}
+
+\begin{document}
+\begin{figure}[t]
+\includegraphics[scale=0.4]{unb.jpg}
+\centering
+\end{figure}
+\maketitle
+\begin{multicols}{2}
+
+\tableofcontents
+
+\newpage\section{DP}
+\includes{Coins}{Materiais/DP/coins.cpp}
+\includes{Minimum Coin Change}{Materiais/DP/minimum_coin_change.cpp}
+\includes{Digits}{Materiais/DP/digits.cpp}
+\includes{Kadane}{Materiais/DP/kadane.cpp}
+\includes{Substr Palindromo}{Materiais/DP/substr_palindromo.cpp}
+\includes{Knapsack}{Materiais/DP/knapsack.cpp}
+\section{Strings}
+\includes{Kmp}{Materiais/Strings/kmp.cpp}
+\includes{Z-function}{Materiais/Strings/z-function.cpp}
+\includes{Generate All Sequences Length K}{Materiais/Strings/generate_all_sequences_length_k.cpp}
+\includes{Generate All Permutations}{Materiais/Strings/generate_all_permutations.cpp}
+\section{Math}
+\includes{Mdc}{Materiais/Math/mdc.cpp}
+\includes{Log}{Materiais/Math/log.cpp}
+\includes{Sieve Of Eratosthenes}{Materiais/Math/sieve_of_eratosthenes.cpp}
+\includes{Formulas}{Materiais/Math/formulas.cpp}
+\includes{Combinatory}{Materiais/Math/combinatory.cpp}
+\includes{Crt}{Materiais/Math/crt.cpp}
+\includes{Check If Bit Is On}{Materiais/Math/check_if_bit_is_on.cpp}
+\includes{Matrix Exponentiation}{Materiais/Math/matrix_exponentiation.cpp}
+\includes{Fast Exponentiation}{Materiais/Math/fast_exponentiation.cpp}
+\includes{Divisors}{Materiais/Math/divisors.cpp}
+\includes{Mmc}{Materiais/Math/mmc.cpp}
+\includes{Binary To Decimal}{Materiais/Math/binary_to_decimal.cpp}
+\includes{Multiplicative Inverse}{Materiais/Math/multiplicative_inverse.cpp}
+\includes{Prime Factors}{Materiais/Math/prime_factors.cpp}
+\section{Misc}
+\includes{Split}{Materiais/Misc/split.cpp}
+\includes{Int128}{Materiais/Misc/int128.cpp}
+\section{ED}
+\includes{Seg Tree}{Materiais/ED/seg_tree.cpp}
+\includes{Seg Lazy}{Materiais/ED/seg_lazy.cpp}
+\includes{Dsu}{Materiais/ED/dsu.cpp}
+\includes{Seg Pqru}{Materiais/ED/seg_pqru.cpp}
+\section{Grafos}
+\includes{Kruskall}{Materiais/Grafos/kruskall.cpp}
+\includes{Dijkstra}{Materiais/Grafos/dijkstra.cpp}
+\includes{Dfs}{Materiais/Grafos/dfs.cpp}
+\includes{Bellman Ford}{Materiais/Grafos/bellman_ford.cpp}
+\includes{Bipartite}{Materiais/Grafos/bipartite.cpp}
+\includes{Floyd Warshall}{Materiais/Grafos/floyd_warshall.cpp}
+\includes{Tree Diameter}{Materiais/Grafos/tree_diameter.cpp}
+\includes{Bfs}{Materiais/Grafos/bfs.cpp}
+\includes{Lca}{Materiais/Grafos/lca.cpp}
+\includes{Dinic}{Materiais/Grafos/dinic.cpp}
+\includes{Find Cycle}{Materiais/Grafos/find_cycle.cpp}
+\includes{Cycle Path Recovery}{Materiais/Grafos/cycle_path_recovery.cpp}
+\section{Template}
+\includes{Template Clean}{Materiais/Template/template_clean.cpp}
+\includes{Template}{Materiais/Template/template.cpp}
+\section{Algoritmos}
+\includes{Ceil}{Materiais/Algoritmos/ceil.cpp}
+\includes{Edit Distance}{Materiais/Algoritmos/edit_distance.cpp}
+\includes{Binary Search Last True}{Materiais/Algoritmos/binary_search_last_true.cpp}
+\includes{Ternary Search}{Materiais/Algoritmos/ternary_search.cpp}
+\includes{Kadane}{Materiais/Algoritmos/kadane.cpp}
+\includes{Binary Exponentiation}{Materiais/Algoritmos/binary_exponentiation.cpp}
+\includes{Delta-encoding}{Materiais/Algoritmos/delta-encoding.cpp}
+\includes{Lis}{Materiais/Algoritmos/lis.cpp}
+\includes{Binary Search First True}{Materiais/Algoritmos/binary_search_first_true.cpp}
+
+\end{multicols}
+\end{document}
