@@ -1,4 +1,5 @@
 // Description:
+// Indexed at zero
 // Query - get sum of elements from range (l, r) inclusive
 // Update - update element at position id to a value val
 
