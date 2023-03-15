@@ -28,7 +28,7 @@ struct Segtree2D {
     int N, M;
     
     vector<vector<int>> seg;
-                   
+
     Segtree2D(int N, int M) {
         this->N = N;
         this->M = M;
