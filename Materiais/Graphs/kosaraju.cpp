@@ -9,7 +9,7 @@
 // Complexity:
 // O(V + E) where V is the number of vertices and E is the number of edges
 
-vector<vector<int>> adj, adj_rev;
+vector<set<int>> adj, adj_rev;
 vector<bool> used;
 vector<int> order, component;
 
