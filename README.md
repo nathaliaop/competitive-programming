@@ -5,15 +5,15 @@ Repositório com resumos e algoritmos utilizados no âmbito competitivo.
 Resumos
 ------------
 
-- [Algoritmos](Content/Algoritmos/)
+- [Algorithms](Content/Algorithms/)
+- [Data Structures](Content/Data%20Structures/)
 - [DP](Content/DP/)
-- [Estruturas de Dados](Content/ED/)
-- [Grafos](Content/Grafos/)
-- [Matemática](Content/Math/)
-- [Geometria](Content/Geometria/)
-- [Strings](Content/Strings/)
+- [Geometry](Content/Geometry/)
+- [Graphs](Content/Graphs/)
+- [Math](Content/Math/)
 - [Misc](Content/Misc)
-- [Numeric](Content/Numeric/)
+- [Strings](Content/Strings/)
+- [Template](Content/Template/)
 
 Gerando notebook
 ----------------------
