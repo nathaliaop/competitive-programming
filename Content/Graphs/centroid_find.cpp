@@ -1,7 +1,7 @@
 // Description:
 // Indexed at zero
 // Find a centroid, that is a node such that when it is appointed the root of the tree,
-// each subtree has at most ⌊n/2⌋ nodes.
+// each subtree has at most floor(n/2) nodes.
 
 // Problem:
 // https://cses.fi/problemset/task/2079/

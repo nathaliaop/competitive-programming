@@ -34,7 +34,7 @@ def remove_aux():
 
 
 def get_dir():
-    path = 'Materiais'
+    path = 'Content'
     section_list = os.listdir(path)
     section = []
     for section_name in section_list:
@@ -57,7 +57,7 @@ def get_dir():
 
 
 def create_notebook(section, blocked):
-    path = 'Materiais'
+    path = 'Content'
     aux = ''
     with open('notebook.tex', 'a') as texfile:
 
