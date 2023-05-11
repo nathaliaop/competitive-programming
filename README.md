@@ -1,8 +1,8 @@
-# Programação Competitiva
+# Competitive Programming
 
-Repositório com resumos e algoritmos utilizados no âmbito competitivo.
+Repository with algorithms and formulas used in competitive programming
 
-Resumos
+Summary
 ------------
 
 - [Algorithms](Content/Algorithms/)
@@ -15,10 +15,10 @@ Resumos
 - [Strings](Content/Strings/)
 - [Template](Content/Template/)
 
-Gerando notebook
+Generating notebook
 ----------------------
 
-Requerimentos: [Python 3](https://www.python.org/), [pdflatex](http://pdftex.org)
+Requirements: [Python 3](https://www.python.org/), [pdflatex](http://pdftex.org)
 
 ```bash
 sudo apt install python3
@@ -28,9 +28,9 @@ sudo apt install python3
 sudo apt install texlive texinfo texlive-fonts-recommended texlive-latex-extra
 ```
 
-Comando:
+Command:
 
 ```bash
 python3 notebookcreator.py
 ```
-  Créditos : [TiagoDFS](https://github.com/Tiagosf00/Competitive-Programming)
+  Credits : [TiagoDFS](https://github.com/Tiagosf00/Competitive-Programming)
