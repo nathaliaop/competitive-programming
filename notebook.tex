@@ -9,32 +9,30 @@
 
 \usepackage[top=2cm, bottom=1.5cm, left=1cm, right=1cm]{geometry}
 
-
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-\definecolor{ballblue}{rgb}{0.0, 0.0, 0.8}
+\definecolor{meninascomp@pink}{HTML}{F06B97}
+\definecolor{meninascomp@purple}{HTML}{6843A3}
+\definecolor{meninascomp@violet}{HTML}{9843a2}
+\definecolor{meninascomp@cyan}{HTML}{2AA198}
+\definecolor{meninascomp@base01}{HTML}{586e75}
 
 \lstset{
-   language=c++,
-   tabsize=4,
-   commentstyle=\color{gray},
-   keywordstyle=\color{ballblue},
-   numberstyle=\tiny\color{codegray},
-   stringstyle=\color{codepurple},
-   basicstyle=\ttfamily\footnotesize,
-   breakatwhitespace=false,
-   breaklines=true,
-   captionpos=b,
-   keepspaces=true,
-   numbers=left,
-   numbersep=5pt,
-   showspaces=false,
-   showstringspaces=false,
-   showtabs=false,
-   extendedchars=false,
-   inputencoding=utf8,
+    language=C++,
+    basicstyle=\footnotesize\ttfamily,
+    numbers=left,
+    numberstyle=\footnotesize,
+    tabsize=2,
+    breaklines=true,
+    escapeinside={@}{@},
+    numberstyle=\tiny\color{meninascomp@base01},
+    keywordstyle=\color{meninascomp@purple},
+    stringstyle=\color{meninascomp@cyan}\ttfamily,
+    identifierstyle=\color{meninascomp@pink},
+    commentstyle=\color{meninascomp@base01},
+    emphstyle=\color{meninascomp@violet},
+    rulecolor=\color{meninascomp@base01},
+    rulesepcolor=\color{meninascomp@base01},
+    showstringspaces=false,
+    morekeywords={ll}
 }
 
 \newcommand\includes[2]{ % Thanks to joseleite19 and Tiagosf00 icpc notebook on github
