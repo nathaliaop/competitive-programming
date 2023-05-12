@@ -1,12 +1,17 @@
-# Créditos ao TiagoDFS - https://github.com/Tiagosf00/Competitive-Programming
+# Créditos ao TiagoDFS - https://github.com/Tiagosf00/Competitive-Programmingnotebook
 
 import os
 import subprocess
 import shutil
+from functools import cmp_to_key
+
+def compare(x, y):
+    if x == 'main.tex':
+        return -1
+    return 1
 
 def cpy_template():
-    shutil.copyfile('template.tex', 'notebook.tex')
-
+    shutil.copyfile('config.tex', 'theory.tex')
 
 def get_blocked():
     blocked = set()
@@ -15,51 +20,54 @@ def get_blocked():
             # Remove comments
             line = line.split('#')[0]
             # Normalize filename
-            line = line.strip().lower().replace(" ", "_") + ".cpp"
+            line = line.strip().lower().replace(" ", "_") + ".tex"
             blocked.add(line)
     return blocked
 
 
 def remove_aux():
     items = [
-        'notebook.aux',
-        'notebook.log',
-        'notebook.toc',
-        'notebook.tex'
+        'theory.aux',
+        'theory.log',
+        'theory.toc',
+        'theory.tex'
         'texput.log',
     ]
     for item in items:
         if os.path.exists(item):
             os.remove(item)
 
-
 def get_dir():
-    path = 'Code'
+    path = 'Theory'
     section_list = os.listdir(path)
     section = []
+    if 'images' in section_list:
+        section_list.remove('images')
+
     for section_name in section_list:
         subsection = []
         section_path = os.path.join(path, section_name)
-        items = os.listdir(section_path)
+        items = sorted(os.listdir(section_path), key=cmp_to_key(compare))
         for file_name in items:
-            if file_name.endswith('.cpp'):
+            if file_name.endswith('.tex'):
                 subsection.append(file_name)
             elif(os.path.isdir(os.path.join(section_path, file_name))):
                 # Sub Directory
                 sub_files = os.listdir(os.path.join(section_path, file_name))
                 subsection.extend([
                     os.path.join(file_name, name) \
-                    for name in sub_files if name.endswith('.cpp')
+                    for name in sub_files if name.endswith('.tex')
                 ])
 
         section.append((section_name, subsection))
     return section
 
 
-def create_notebook(section, blocked):
-    path = 'Code'
+def create_theory(section, blocked):
+    cpy_template()
+    path = 'Theory'
     aux = ''
-    with open('notebook.tex', 'a') as texfile:
+    with open('theory.tex', 'a') as texfile:
 
         for (item, subsection) in section:
             aux += '\\section{%s}\n' % item
@@ -72,20 +80,19 @@ def create_notebook(section, blocked):
                 file_name = " ".join([x.capitalize() for x in name.split("_")])
                 file_path = os.path.join(path, item, file).replace('\\','/')
 
-                aux += '\\includes{%s}{%s}\n' % \
-                    (file_name, file_path)
+                aux += '\\input{%s}\n' % \
+                    (file_path)
 
-        aux += '\n\\end{multicols}\n\\end{document}\n'
+        aux += '\n\\end{document}\n'
         texfile.write(aux)
 
 def main():
-    cpy_template()
     section = get_dir()
     blocked = get_blocked()
-    create_notebook(section, blocked)
+    create_theory(section, blocked)
 
     cmd = ['pdflatex', '-interaction=nonstopmode', '-halt-on-error',
-           'notebook.tex']
+           'theory.tex']
     with open(os.devnull, 'w') as DEVNULL:
         try:
             subprocess.check_call(cmd, stdout=DEVNULL)
@@ -93,7 +100,7 @@ def main():
         except Exception:
             print("Erro na transformação de LaTex para pdf.")
             print("Execute manualmente para entender o erro:")
-            print('pdflatex -interaction=nonstopmode -halt-on-error notebook.tex')
+            print('pdflatex -interaction=nonstopmode -halt-on-error theory.tex')
             remove_aux()
             exit(1)
 
