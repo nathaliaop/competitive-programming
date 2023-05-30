@@ -1,51 +1,73 @@
-vector<int> parent, rank;
+struct DSU {
+    int n;
+    vector<int> link, sizes;
 
-void make_set(int v) {
-    parent[v] = v;
-    rank[v] = 0;
-}
+    DSU(int n) {
+        this->n = n;
+        link.assign(n+1, 0);
+        sizes.assign(n+1, 1);
 
-int find_set(int v) {
-    if (v == parent[v])
-        return v;
-    return parent[v] = find_set(parent[v]);
-}
-
-void union_sets(int a, int b) {
-    a = find_set(a);
-    b = find_set(b);
-    if (a != b) {
-        if (rank[a] < rank[b])
-            swap(a, b);
-        parent[b] = a;
-        if (rank[a] == rank[b])
-            rank[a]++;
+        for (int i = 0; i <= n; i++)
+            link[i] = i;
     }
-}
 
-struct Edge {
-    int u, v, weight;
-    bool operator<(Edge const& other) {
-        return weight < other.weight;
+    int find(int x) {
+        while (x != link[x])
+            x = link[x];
+        
+        return x;
+    }
+
+    bool same(int a, int b) {
+        return find(a) == find(b);
+    }
+
+    void unite(int a, int b) {
+        a = find(a);
+        b = find(b);
+        
+        if (a == b) return;
+        
+        if (sizes[a] < sizes[b])
+            swap(a, b);
+            
+        sizes[a] += sizes[b];
+        link[b] = a;
     }
 };
 
-int n;
-vector<Edge> edges;
-
-int cost = 0;
-vector<Edge> result;
-parent.resize(n);
-rank.resize(n);
-for (int i = 0; i < n; i++)
-    make_set(i);
-
-sort(edges.begin(), edges.end());
-
-for (Edge e : edges) {
-    if (find_set(e.u) != find_set(e.v)) {
-        cost += e.weight;
-        result.push_back(e);
-        union_sets(e.u, e.v);
+struct Edge {
+    int u, v;
+    long long weight;
+    
+    Edge() {}
+    
+    Edge(int u, int v, long long weight) : u(u), v(v), weight(weight) {}
+    
+    bool operator<(const Edge& other) const {
+        return weight < other.weight;
     }
+    
+    bool operator>(const Edge& other) const {
+        return weight > other.weight;
+    }
+};
+
+vector<Edge> kruskal(vector<Edge> edges, int n) {
+    vector<Edge> result; // arestas da MST
+    long long cost = 0;
+
+    sort(edges.begin(), edges.end());
+
+    DSU dsu(n);
+
+    for (auto e : edges) {
+        if (!dsu.same(e.u, e.v)) {
+            cost += e.weight;
+            result.push_back(e);
+            dsu.unite(e.u, e.v);
+        }
+    }
+
+    return result;
 }
