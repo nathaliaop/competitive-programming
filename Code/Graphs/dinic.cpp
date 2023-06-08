@@ -18,86 +18,141 @@
 // How to use:
 // Dinic dinic = Dinic(num_vertex, source, sink);
 // dinic.add_edge(vertex1, vertex2, capacity);
-// cout << dinic.flow() << '\n';
+// cout << dinic.max_flow() << '\n';
 
-struct FlowEdge {
-    int v, u;
-    long long cap, flow = 0;
-    FlowEdge(int v, int u, long long cap) : v(v), u(u), cap(cap) {}
+#include <bits/stdc++.h>
+
+#define pb push_back
+#define mp make_pair
+#define pii pair<int, int>
+#define ff first
+#define ss second
+#define ll long long
+
+using namespace std;
+
+const ll INF = 1e18+10;
+
+struct Edge {
+    int from;
+    int to;
+    ll capacity;
+    ll flow;
+    Edge* residual;
+    
+    Edge() {}
+    
+    Edge(int from, int to, ll capacity) : from(from), to(to), capacity(capacity) {
+        flow = 0;
+    }
+    
+    ll get_capacity() {
+        return capacity - flow;
+    }
+    
+    void augment(ll bottleneck) {
+        flow += bottleneck;
+        residual->flow -= bottleneck;
+    }
+    
+    bool operator<(const Edge& e) const {
+        return true;
+    }
 };
 
 struct Dinic {
-    const long long flow_inf = 1e18;
-    vector<FlowEdge> edges;
-    vector<vector<int>> adj;
-    int n, m = 0;
-    int s, t;
-    vector<int> level, ptr;
-    queue<int> q;
-
-    Dinic(int n, int s, int t) : n(n), s(s), t(t) {
-        adj.resize(n);
-        level.resize(n);
-        ptr.resize(n);
+    int source;
+    int sink;
+    int nodes;
+    ll flow;
+    vector<vector<Edge*>> adj;
+    vector<int> level;
+    vector<int> next;
+    
+    Dinic(int source, int sink, int nodes) : source(source), sink(sink), nodes(nodes) {
+        adj.resize(nodes + 1);
+    } 
+    
+    void add_edge(int from, int to, ll capacity) {
+        Edge* e1 = new Edge(from, to, capacity);
+        Edge* e2 = new Edge(to, from, 0);
+        e1->residual = e2;
+        e2->residual = e1;
+        adj[from].pb(e1);
+        adj[to].pb(e2);
     }
-
-    void add_edge(int v, int u, long long cap) {
-        edges.emplace_back(v, u, cap);
-        edges.emplace_back(u, v, 0);
-        adj[v].push_back(m);
-        adj[u].push_back(m + 1);
-        m += 2;
-    }
-
+    
     bool bfs() {
+        level.assign(nodes + 1, -1);
+        queue<int> q;
+        q.push(source);
+        level[source] = 0;
+        
         while (!q.empty()) {
-            int v = q.front();
+            int node = q.front();
             q.pop();
-            for (int id : adj[v]) {
-                if (edges[id].cap - edges[id].flow < 1)
-                    continue;
-                if (level[edges[id].u] != -1)
-                    continue;
-                level[edges[id].u] = level[v] + 1;
-                q.push(edges[id].u);
+            
+            for (auto e : adj[node]) {
+                if (level[e->to] == -1 && e->get_capacity() > 0) {
+                    level[e->to] = level[e->from] + 1;
+                    q.push(e->to);
+                }
             }
         }
-        return level[t] != -1;
+        
+        return level[sink] != -1;
     }
+    
+    ll dfs(int v, ll flow) {
+        if (v == sink)
+            return flow;
 
-    long long dfs(int v, long long pushed) {
-        if (pushed == 0)
-            return 0;
-        if (v == t)
-            return pushed;
-        for (int& cid = ptr[v]; cid < (int)adj[v].size(); cid++) {
-            int id = adj[v][cid];
-            int u = edges[id].u;
-            if (level[v] + 1 != level[u] || edges[id].cap - edges[id].flow < 1)
-                continue;
-            long long tr = dfs(u, min(pushed, edges[id].cap - edges[id].flow));
-            if (tr == 0)
-                continue;
-            edges[id].flow += tr;
-            edges[id ^ 1].flow -= tr;
-            return tr;
+        int sz = adj[v].size();
+        for (int i = next[v]; i < sz; i++) {
+            Edge* e = adj[v][i];
+            if (level[e->to] == level[e->from] + 1 && e->get_capacity() > 0) {
+                ll bottleneck = dfs(e->to, min(flow, e->get_capacity()));
+                if (bottleneck > 0) {
+                    e->augment(bottleneck);
+                    return bottleneck;
+                }
+            }
+            
+            next[v] = i + 1;
         }
+        
         return 0;
     }
-
-    long long flow() {
-        long long f = 0;
-        while (true) {
-            fill(level.begin(), level.end(), -1);
-            level[s] = 0;
-            q.push(s);
-            if (!bfs())
-                break;
-            fill(ptr.begin(), ptr.end(), 0);
-            while (long long pushed = dfs(s, flow_inf)) {
-                f += pushed;
+    
+    ll max_flow() {
+        flow = 0;
+        while(bfs()) {
+            next.assign(nodes + 1, 0);
+            ll sent = -1;
+            while (sent != 0) {
+                sent = dfs(source, INF);
+                flow += sent;
             }
         }
-        return f;
+        return flow;
     }
 };
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int n, m; cin >> n >> m;
+    
+    Dinic dinic = Dinic(1, n, n);
+    
+    for (int i = 1; i <= m; i++) {
+        int v, u, c; cin >> v >> u >> c;
+        dinic.add_edge(v, u, c);
+        // dinic.add_edge(u, v, c);
+    }
+    
+    cout << dinic.max_flow() << '\n';
+    
+    return 0;
+}
