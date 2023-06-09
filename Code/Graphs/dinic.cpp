@@ -205,7 +205,7 @@ struct Dinic {
         while (sent != 0) {
             visited.assign(nodes + 1, false);
             path.pb(vector<int>{});
-            sent = build_path(1, ++id, INF);
+            sent = build_path(source, ++id, INF);
             path[id].pb(source);
         }
         path.pop_back();
