@@ -68,6 +68,8 @@ struct Dinic {
     vector<vector<Edge*>> adj;
     vector<int> level;
     vector<int> next;
+    vector<int> reach;
+    vector<bool> visited;
     
     Dinic(int source, int sink, int nodes) : source(source), sink(sink), nodes(nodes) {
         adj.resize(nodes + 1);
@@ -76,6 +78,7 @@ struct Dinic {
     void add_edge(int from, int to, ll capacity) {
         Edge* e1 = new Edge(from, to, capacity);
         Edge* e2 = new Edge(to, from, 0);
+        // Edge* e2 = new Edge(to, from, capacity);
         e1->residual = e2;
         e2->residual = e1;
         adj[from].pb(e1);
@@ -136,6 +139,33 @@ struct Dinic {
         }
         return flow;
     }
+    
+    void reachable(int v) {
+        visited[v] = true;
+        
+        for (auto e : adj[v]) {
+            if (!visited[e->to] && e->get_capacity() > 0) {
+                reach.pb(e->to);
+                visited[e->to] = true;
+                reachable(e->to);
+            }
+        }
+    }
+    
+    void print_path() {
+        reach.clear();
+        visited.assign(nodes + 1, false);
+        reach.pb(source);
+        reachable(source);
+        
+        for (auto v : reach) {
+            for (auto e : adj[v]) {
+                if (!visited[e->to] && e->get_capacity() == 0) {
+                    cout << e->from << ' ' << e->to << '\n';
+                }
+            }
+        }
+    }
 };
 
 int main() {
@@ -147,12 +177,12 @@ int main() {
     Dinic dinic = Dinic(1, n, n);
     
     for (int i = 1; i <= m; i++) {
-        int v, u, c; cin >> v >> u >> c;
-        dinic.add_edge(v, u, c);
-        // dinic.add_edge(u, v, c);
+        int v, u; cin >> v >> u;
+        dinic.add_edge(v, u, 1);
     }
     
     cout << dinic.max_flow() << '\n';
+    // dinic.print_path();
     
     return 0;
 }
