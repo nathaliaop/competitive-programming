@@ -50,9 +50,18 @@ struct Edge {
         return capacity - flow;
     }
     
+    ll get_flow() {
+        return flow;
+    }
+    
     void augment(ll bottleneck) {
         flow += bottleneck;
         residual->flow -= bottleneck;
+    }
+    
+    void reverse(ll bottleneck) {
+        flow -= bottleneck;
+        residual->flow += bottleneck;
     }
     
     bool operator<(const Edge& e) const {
@@ -70,6 +79,7 @@ struct Dinic {
     vector<int> next;
     vector<int> reach;
     vector<bool> visited;
+    vector<vector<int>> path;
     
     Dinic(int source, int sink, int nodes) : source(source), sink(sink), nodes(nodes) {
         adj.resize(nodes + 1);
@@ -152,7 +162,7 @@ struct Dinic {
         }
     }
     
-    void print_path() {
+    void print_min_cut() {
         reach.clear();
         visited.assign(nodes + 1, false);
         reach.pb(source);
@@ -164,6 +174,49 @@ struct Dinic {
                     cout << e->from << ' ' << e->to << '\n';
                 }
             }
+        }
+    }
+    
+    ll build_path(int v, int id, ll flow) {
+        visited[v] = true;
+        if (v == sink) {
+            return flow;
+        }
+        
+        for (auto e : adj[v]) {
+            if (!visited[e->to] && e->get_flow() > 0) {
+                visited[e->to] = true;
+                ll bottleneck = build_path(e->to, id, min(flow, e->get_flow()));
+                if (bottleneck > 0) {
+                    path[id].pb(e->to);
+                    e->reverse(bottleneck);
+                    return bottleneck;
+                }
+            }
+        }
+        
+        return 0;
+    }
+    
+    void print_flow_path() {
+        path.clear();
+        ll sent = -1;
+        int id = -1;
+        while (sent != 0) {
+            visited.assign(nodes + 1, false);
+            path.pb(vector<int>{});
+            sent = build_path(1, ++id, INF);
+            path[id].pb(source);
+        }
+        path.pop_back();
+        
+        for (int i = 0; i < id; i++) {
+            cout << path[i].size() << '\n';
+            reverse(path[i].begin(), path[i].end());
+            for (auto e : path[i]) {
+                cout << e << ' ';
+            }
+            cout << '\n';
         }
     }
 };
@@ -182,7 +235,8 @@ int main() {
     }
     
     cout << dinic.max_flow() << '\n';
-    // dinic.print_path();
-    
+    // dinic.print_min_cut();
+    // dinic.print_flow_path();
+
     return 0;
 }
