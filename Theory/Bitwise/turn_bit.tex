@@ -1,3 +1,6 @@
-\subsection{Turn bit on and off}
-Turn on bit i \lstinline{x & (1 << i)}\\
-Turn off bit i \lstinline{x & (~(1 << i))}\\
+\subsection{Turn bit on or off}
+Turn on bit i \lstinline{x ^= (1 << i)}\\
+Turn off bit i \lstinline{x ^= (1 << i)}\\
+\subsection{Check if bit is on or off}
+Check if bit is on \lstinline{x ^ ~(1 << i)}\\
+Check if bit is off \lstinline{x ^ (1 << i)}\\

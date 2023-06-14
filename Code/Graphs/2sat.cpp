@@ -5,7 +5,7 @@
 // https://cses.fi/problemset/task/1684
 
 // Complexity:
-// O(n + m) where n is the number of variables and m is the number of clauses
+// O(n + m) where n is the number of variables and m is the number of clauses
 
 #include <bits/stdc++.h>
 #define pb push_back
