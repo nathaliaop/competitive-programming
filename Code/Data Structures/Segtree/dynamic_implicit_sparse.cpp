@@ -17,24 +17,22 @@
 
 // How to use:
 // MAX is the maximum index a node can assume
-// Create a default null node
-// Create a node to be the root of the segtree
 
 // Segtree seg = Segtree(MAX);
-// seg.create();
-// seg.create();
 
 typedef long long ftype;
 
 const int MAX = 1e9+17;
 
 struct Segtree {
-    vector<ftype> seg, d, e, lazy;
+    vector<ftype> seg, d, e;
     const ftype NEUTRAL = 0;
     int n;
     
     Segtree(int n) {
         this->n = n;
+        create();
+        create();
     }
     
     ftype f(ftype a, ftype b) {
