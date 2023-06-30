@@ -15,6 +15,8 @@
 // Notes
 // Change neutral element and f function to perform a different operation
 
+const long long INF = 1e18+10;
+
 typedef long long ftype;
  
 struct Segtree {
@@ -22,7 +24,7 @@ struct Segtree {
     vector<ftype> lazy;
     int n;
     const ftype NEUTRAL = 0;
-    const ftype NEUTRAL_LAZY = -1;
+    const ftype NEUTRAL_LAZY = -INF;
  
     Segtree(int n) {
         int sz = 1;

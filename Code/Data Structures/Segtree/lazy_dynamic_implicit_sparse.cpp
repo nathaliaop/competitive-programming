@@ -24,18 +24,15 @@
 // seg.create();
 // seg.create();
 
-typedef long long ftype;
+const int MAX = 1e9+10;
+const long long INF = 1e18+10; 
 
-const int MAX = 1e9+17;
-
 typedef long long ftype;
- 
-const int MAX = 1e9+17;
  
 struct Segtree {
     vector<ftype> seg, d, e, lazy;
     const ftype NEUTRAL = 0;
-    const ftype NEUTRAL_LAZY = -1;
+    const ftype NEUTRAL_LAZY = -INF;
     int n;
     
     Segtree(int n) {
