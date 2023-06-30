@@ -1,6 +1,22 @@
-const int MAX = 2e5+10;
+// Description:
+// Query - get sum of elements from range (l, r) inclusive
+// Update - add a value val to elementos from range (l, r) inclusive
+
+// Problem:
+// https://codeforces.com/edu/course/2/lesson/5/1/practice/contest/279634/problem/A
+
+// Complexity:
+// O(log n) for both query and update
+
+// How to use:
+// Segtree seg = Segtree(n);
+// seg.build(v);
+
+// Notes
+// Change neutral element and f function to perform a different operation
+
 const long long INF = 1e18+10;
- 
+
 typedef long long ftype;
  
 struct Segtree {
@@ -89,7 +105,7 @@ struct Segtree {
         seg[pos] = f(seg[e], seg[d]);
     }
  
-    void build(int pos, int ini, int fim, vector<long long> &v) {
+    void build(int pos, int ini, int fim, vector<int> &v) {
         if (ini == fim) {
             if (ini < (int)v.size()) {
                 seg[pos] = v[ini];
@@ -115,7 +131,7 @@ struct Segtree {
         update(0, 0, n - 1, p, q, val);
     }
  
-    void build(vector<long long> &v) {
+    void build(vector<int> &v) {
         build(0, 0, n - 1, v);
     }
  
