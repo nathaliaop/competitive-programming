@@ -1,9 +1,10 @@
 \subsection{Check for overflow}
+Returns false if there is no overflow and true if there is overflow. The variable v stores the result of the operation.
+\begin{lstlisting}[style=c++, numbers=none]
 long long v;
-// false if no overflow
-// true if overflow
 __builtin_add_overflow(a, b, v);
-cout << v << '\n'; // result of sum
+cout << v;
 
 __builtin_sub_overflow(a, b, v);
 __builtin_mul_overflow(a, b, v);
+\end{lstlisting}
