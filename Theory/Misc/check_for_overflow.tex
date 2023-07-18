@@ -1,0 +1,9 @@
+\subsection{Check for overflow}
+long long v;
+// false if no overflow
+// true if overflow
+__builtin_add_overflow(a, b, v);
+cout << v << '\n'; // result of sum
+
+__builtin_sub_overflow(a, b, v);
+__builtin_mul_overflow(a, b, v);
