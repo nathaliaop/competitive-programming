@@ -1,0 +1,12 @@
+const string digits { "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
+
+long long to_decimal(const string& rep, long long base) {
+  long long n = 0;
+
+  for (auto c : rep) {
+    n *= base;
+    n += digits.find(c);
+  }
+
+  return n;
+}
