@@ -2,78 +2,102 @@
 // Find the lowest common ancestor between two nodes in a tree
 
 // Problem:
-// https://cses.fi/problemset/task/1688/
+// https://cses.fi/problemset/task/1135
 
 // Complexity:
 // O(log n)
 
 // How to use:
-// preprocess(1);
+// preprocess();
 // lca(a, b);
 
 // Notes
 // To calculate the distance between two nodes use the following formula
-// dist[a] + dist[b] - 2*dist[lca(a, b)]
+// level_peso[a] + level_peso[b] - 2*level_peso[lca(a, b)]
 
-const int MAX = 2e5+17;
+const int MAX = 2e5+10;
+const int BITS = 30;
+ 
+vector<pii> adj[MAX];
+vector<bool> visited(MAX);
 
-const int BITS = 32;
+int up[MAX][BITS + 1];
+int level[MAX];
+int level_peso[MAX];
 
-vector<int> adj[MAX];
-// vector<pair<int, int>> adj[MAX];
-// int dist[MAX];
+void find_level() {
+  queue<pii> q;
  
-int timer;
-vector<int> tin, tout;
-vector<vector<int>> up;
+  q.push(mp(1, 0));
+  visited[1] = true;
  
-void dfs(int v, int p)
-{
-    tin[v] = ++timer;
-    up[v][0] = p;
+  while (!q.empty()) {
+    auto [v, depth] = q.front();
+    q.pop();
+    level[v] = depth;
  
-    for (int i = 1; i <= BITS; ++i) {
-        up[v][i] = up[up[v][i-1]][i-1];
+    for (auto [u,d] : adj[v]) {
+      if (!visited[u]) {
+        visited[u] = true;
+        up[u][0] = v;
+        q.push(mp(u, depth + 1));
+      }
     }
-   
-    for (auto u : adj[v]) {
-        if (u != p) {
-            dfs(u, v);
-        }
-    }
+  }
+}
 
-    /*for (auto [u, peso] : adj[v]) {
-        if (u != p) {
-            dist[u] = dist[v] + peso;
-            dfs(u, v);
-        }
-    }*/
-    
-    tout[v] = ++timer;
+void find_level_peso() {
+  queue<pii> q;
+ 
+  q.push(mp(1, 0));
+  visited[1] = true;
+ 
+  while (!q.empty()) {
+    auto [v, depth] = q.front();
+    q.pop();
+    level_peso[v] = depth;
+ 
+    for (auto [u,d] : adj[v]) {
+      if (!visited[u]) {
+        visited[u] = true;
+        up[u][0] = v;
+        q.push(mp(u, depth + d));
+      }
+    }
+  }
 }
  
-bool is_ancestor(int u, int v)
-{
-    return tin[u] <= tin[v] && tout[u] >= tout[v];
-}
+int lca(int a, int b) {
+   // get the nodes to the same level
+    int mn = min(level[a], level[b]);
  
-int lca(int u, int v)
-{
-    if (is_ancestor(u, v))
-        return u;
-    if (is_ancestor(v, u))
-        return v;
-    for (int i = BITS; i >= 0; --i) {
-        if (!is_ancestor(up[u][i], v))
-            u = up[u][i];
+    for (int j = 0; j <= BITS; j++) {
+      if (a != -1 && ((level[a] - mn) & (1 << j))) a = up[a][j];
+      if (b != -1 && ((level[b] - mn) & (1 << j))) b = up[b][j];
     }
-    return up[u][0];
-}
  
-void preprocess(int root) {
-    tin.resize(MAX);
-    tout.resize(MAX);
-    timer = 0;
-    up.assign(MAX, vector<int>(BITS + 1));
-    dfs(root, root);
+    // special case
+    if (a == b) return a;
+ 
+    // binary search
+    for (int j = BITS; j >= 0; j--) {
+      if (up[a][j] != up[b][j]) {
+        a = up[a][j];
+        b = up[b][j];
+      }
+    }
+    return up[a][0];
+}
+
+void preprocess() {
+  visited = vector<bool>(MAX, false);
+  find_level();
+  visited = vector<bool>(MAX, false);
+  find_level_peso();
+ 
+  for (int j = 1; j <= BITS; j++) {
+    for (int i = 1; i <= n; i++) {
+      if (up[i][j - 1] != -1) up[i][j] = up[up[i][j - 1]][j - 1];
+    }
+  }
 }
