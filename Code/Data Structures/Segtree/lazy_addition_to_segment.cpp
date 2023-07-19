@@ -24,7 +24,7 @@ struct Segtree {
     vector<ftype> lazy;
     int n;
     const ftype NEUTRAL = 0;
-    const ftype NEUTRAL_LAZY = -INF;
+    const ftype NEUTRAL_LAZY = -1; // change to -INF if there are negative numbers
  
     Segtree(int n) {
         int sz = 1;

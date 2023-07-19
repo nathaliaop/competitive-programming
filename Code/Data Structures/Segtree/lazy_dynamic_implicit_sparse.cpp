@@ -21,8 +21,6 @@
 // Create a node to be the root of the segtree
 
 // Segtree seg = Segtree(MAX);
-// seg.create();
-// seg.create();
 
 const int MAX = 1e9+10;
 const long long INF = 1e18+10; 
@@ -32,16 +30,18 @@ typedef long long ftype;
 struct Segtree {
     vector<ftype> seg, d, e, lazy;
     const ftype NEUTRAL = 0;
-    const ftype NEUTRAL_LAZY = -INF;
+    const ftype NEUTRAL_LAZY = -1; // change to -INF if the elements can be negative
     int n;
     
     Segtree(int n) {
         this->n = n;
+        create();
+        create();
     }
     
     ftype apply_lazy(ftype a, ftype b, int len) {
         if (b == NEUTRAL_LAZY) return a;
-        else return b * len;
+        else return b * len; // change to a + b * len to add to an element instead of updating it
     }
  
     void propagate(int pos, int ini, int fim) {
