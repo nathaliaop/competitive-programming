@@ -5,7 +5,7 @@ void subsets(vector<int>& nums){
   for(int counter = 0; counter < powSize; counter++) {
     for(int j = 0; j < n; j++) {
       if((counter & (1LL << j)) != 0) {
-        cout << arr[j] << ' ';  
+        cout << nums[j] << ' ';  
       }
       cout << '\n';
     }
