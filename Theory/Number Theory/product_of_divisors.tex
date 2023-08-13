@@ -1,0 +1,10 @@
+\subsection{Product of divisors}
+Given the prime factorization $$ n = p_1^{e_1} . p_2^{e_2} . p_3^{e_3} $$
+The product of divisors of n is
+$$ p(n) = n^{d(n) / 2} $$
+$$ p(n) = (p_1^{e_1} . p_2^{e_2} . p_3^{e_3})^{(e1 + 1) . (e2 + 1) . (e3 + 1) / 2} $$
+$$ p(n) = p_1^{e_1 . (e_1 + 1) (e2 + 1) . (e3 + 1) / 2} . p_2^{e_2 . (e_1 + 1) (e2 + 1) . (e3 + 1) / 2} . p_3^{e_3 . (e_1 + 1) (e2 + 1) . (e3 + 1) / 2} $$
+
+For any $e_i$, it is guaranteed that either $e_i$ or $e_i + 1$ will be divisible by 2.
+
+When calculating the exponent $e_1 . (e_1 + 1) (e2 + 1) . (e3 + 1) / 2$, get it \% MOD - 1, from Fermat's Theorem.

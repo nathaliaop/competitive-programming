@@ -1,0 +1,17 @@
+\subsection{K leading digits of n!}
+A similar idea can be used to calculate the first digits of exponentiation.
+
+$$ \log _{10} n! = \log _{10} (1 \times 2 \times 3 \times ... \times n) = \log _{b} 1 + \log _{10} 2 + \log _{10} 3 + ... + \log _{10} n $$
+
+Decimal part:
+$$ q = \log _{10} n! - (int) \log_{10} n! $$
+
+Leading digits:
+$$ b = pow(10, q) $$
+\begin{lstlisting}[style=c++, numbers=none]
+// Shift decimal point k-1 times
+for ( int i = 0; i < k - 1; i++ ) {
+    b *= 10;
+}
+\end{lstlisting}
+$$ leadingdigits = \lfloor b \rfloor $$
