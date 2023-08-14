@@ -182,6 +182,9 @@ vp inter_seg(line l1, line l2){
     return ans;
 }
 bool seg_has_inter(line l1, line l2){
+    // if collinear
+    if (l1.inside_seg(l2.p1) || l1.inside_seg(l2.p2) || l2.inside_seg(l1.p1) || l2.inside_seg(l1.p2)) return true;
+
     return ccw(l1.p1, l1.p2, l2.p1) * ccw(l1.p1, l1.p2, l2.p2) < 0 and
            ccw(l2.p1, l2.p2, l1.p1) * ccw(l2.p1, l2.p2, l1.p2) < 0;
 }
