@@ -1,4 +1,5 @@
 // Description:
+// Make queries and updates between two vertexes on a tree
 // Query path - query path (a, b) inclusive
 // Update path - update path (a, b) inclusive
 // Query subtree - query subtree of a
@@ -20,8 +21,6 @@
 // Notes
 // Change the root of the tree on the constructor if it's different from 1
 // Use together with Segtree
-// For edge query and update, update the child node with the value of the edge
-// edge(a, b) and parent[a] = b   => update vertex a
 
 struct HLD {
   vector<int> parent;
