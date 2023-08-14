@@ -1,5 +1,15 @@
-// before dividing by two
+// Description
+// Shoelace formula finds the area of a polygon
+// Boundary points return the number of integer points on the edges of a polygon
+// not counting the vertexes
 
+// Problem
+// https://codeforces.com/gym/101873/problem/G
+
+// Complexity
+// O(n)
+
+// before dividing by two
 int shoelace(vector<point> & points) {
     int n = points.size();
     vector<point> v(n + 2);
