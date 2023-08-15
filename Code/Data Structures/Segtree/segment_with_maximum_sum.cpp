@@ -2,7 +2,7 @@
 // Query - get sum of segment that is maximum among all segments
 // E.g 
 // Array: 5 -4 4 3 -5
-// Maximum segment sum: 8 because 5 + (-4) + 4 = 8
+// Maximum segment sum: 8 because 5 + (-4) + 4 + 3 = 8
 // Update - update element at position id to a value val
 
 // Problem:
