@@ -39,6 +39,7 @@ struct HLD {
   int cpos;
   int n;
   int root;
+  vector<vector<int>> up;
 
   HLD() {}
  
@@ -157,4 +158,57 @@ struct HLD {
     }
     seg.update(l, pos[a], 1);
   }
+
+  /* k-th ancestor of x
+  int x, k; cin >> x >> k;
+
+  for (int b = 0; b <= BITS; b++) {
+    if (x != -1 && (k & (1 << b))) {
+      x = up[x][b];
+    }
+  }
+
+  cout << x << '\n';
+  */
+  void preprocess() {
+    up.assign(n + 1, vector<int>(31, -1));  
+ 
+    for (int i = 1; i < n; i++) {
+      up[i][0] = parent[i];
+    }
+ 
+    for (int i = 1; i < n; i++) {
+      for (int j = 1; j <= 30; j++) {
+        if (up[i][j - 1] != -1) up[i][j] = up[up[i][j - 1]][j - 1];
+      }
+    }
+  }
+
+  int getKth(int p , int q , int k){
+    int a = lca(p,q) , d ;
+
+    if( a == p ){
+        d = level[q] - level[p] + 1 ;
+        swap(p,q);
+        k = d - k + 1 ;
+    }
+    else if( a == q ) ;
+    else {
+        if( k > level[p] - level[a] + 1 ) {
+            d = level[p] + level[q] - 2 * level[a] + 1 ;
+            k = d - k + 1 ;
+            swap(p,q);
+        }
+        else ;
+    }
+    int lg ; for( lg = 1 ; (1 << lg) <= level[p] ; ++lg ); lg--;
+    k--;
+    for( int i = lg ; i >= 0 ; i-- ){
+        if( (1 << i) <= k ){
+            p = up[p][i];
+            k -= ( 1 << i );
+        }
+    }
+    return p;
+}
 };
