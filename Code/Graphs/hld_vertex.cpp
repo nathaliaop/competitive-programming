@@ -22,6 +22,8 @@
 // Change the root of the tree on the constructor if it's different from 1
 // Use together with Segtree
 
+typedef long long ftype;
+
 struct HLD {
   vector<int> parent;
   vector<int> pos;
@@ -86,12 +88,27 @@ struct HLD {
     }
   }
 
-  ll query_path(int a, int b) {
+  ftype query_path(int a, int b) {
     if(pos[a] < pos[b]) swap(a, b);
 
     if(head[a] == head[b]) return seg.query(pos[b], pos[a]);
     return seg.f(seg.query(pos[head[a]], pos[a]), query_path(parent[head[a]], b));
   }
+
+  // iterative
+  /*ftype query_path(int a, int b) {
+    ftype ans = 0;
+ 
+    while (head[a] != head[b]) {
+      if (level[head[a]] > level[head[b]]) swap(a, b);
+      ans = seg.merge(ans, seg.query(pos[head[b]], pos[b]));
+      b = parent[head[b]];
+    }
+ 
+    if (level[a] > level[b]) swap(a, b);
+    ans = seg.merge(ans, seg.query(pos[a], pos[b]));
+    return ans;
+  }*/
 
   ftype query_subtree(int a) {
     return seg.query(pos[a], pos[a] + subtree_size[a] - 1);
