@@ -1,0 +1,20 @@
+\subsection{Catalan Numbers}
+The Catalan number $C_{n}$ equals the number of valid parenthesis expressions that consist of n left parentheses and n right parentheses.
+
+\begin{equation*}
+    C_{n} = \dfrac{1}{n + 1} \binom{2n}{n}
+\end{equation*}
+\newline
+Catalan numbers are also related to trees:
+
+\begin{itemize}
+    \item there are $C_{n}$ binary trees of n nodes
+    \item there are $C_{n-1}$ rooted trees of n nodes.
+\end{itemize}
+
+\subsubsection{K-th convolution of Catalan}
+Finds the count of balanced parentheses sequences consisting of n+k pairs of parentheses where the first k symbols are open brackets.
+
+\begin{equation*}
+    C_{k} = \dfrac{k + 1}{n + k + 1} \binom{2n + k}{n}
+\end{equation*}
