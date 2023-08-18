@@ -1,0 +1,105 @@
+// Description:
+// Hierholzer's Algorithm
+// An Eulerian path is a path that passes through every edge exactly once.
+// An Eulerian circuit is an Eulerian path that starts and ends on the same node.
+
+// An Eulerian path exists in an undirected graph if the degree of every node is even (not counting self-edges)
+// except for possibly exactly two nodes that have and odd degree (start and end nodes).
+// An Eulerian circuit exists in an undirected graph if the degree of every node is even.
+
+// The graph has to be conected (except for isolated nodes which are allowed because there
+// are no edges connected to them).
+
+// Problem:
+// https://cses.fi/problemset/task/1691
+
+// Complexity:
+// O(E * log(E)) where M is the number of edges
+
+// How to use
+// Check whether the path exists before trying to find it
+// Find the root - any node that has at least 1 outgoing edge
+// (if the problem requires that you start from a node v, the root will be the node v)
+// Count the degree;
+//
+// for (int i = 0; i < m; i++) {
+//  int a, b; cin >> a >> b;
+//  adj[a].pb(b); adj[b].pb(a);
+//  root = a;
+//  degree[a]++; degree[b]++;
+// }
+
+// Notes
+// If you want to find a path start and ending nodes v and u
+// if ((is_eulerian(n, root, start, end) != 1) || (start != v) || (end != u)) cout << "IMPOSSIBLE\n"
+
+// It can be speed up to work on O(E) on average by using unordered_set instead of set
+
+// It works when there are self loops, but not when there are multiple edges
+// It the graph has multiple edges, add more notes to simulate the edges 
+// e.g 
+// 1 2
+// 1 2
+// 1 2
+// becomes
+// 3 4
+// 4 1
+// 1 2
+
+vector<bool> visited;
+vector<int> degree;
+vector<vector<int>> adj;
+
+void dfs(int v) {
+  visited[v] = true;
+  for (auto u : adj[v]) {
+    if (!visited[u]) dfs(u);
+  }
+}
+
+int is_eulerian(int n, int root, int& start, int& end) {
+  start = -1, end = -1;
+  if (n == 1) return 2; // only one node
+  visited.assign(n + 1, false);
+  dfs(root);
+
+  for (int i = 1; i <= n; i++) {
+    if (!visited[i] && degree[i] > 0) return 0;
+  }
+
+  for (int i = 1; i <= n; i++) {
+    if (start == -1 && degree[i] % 2 == 1) start = i;
+    else if (end == -1 && degree[i] % 2 == 1) end = i;
+    else if (degree[i] % 2 == 1) return 0;
+  }
+
+  if (start == -1 && end == -1) {start = root; end = root; return 2;} // has eulerian circuit and path
+  if (start != -1 && end != -1) return 1; // has eulerian path
+  return 0; // no eulerian path nor circuit
+}
+
+vector<int> path;
+vector<set<int>> mark;
+
+void dfs_path(int v) {
+  visited[v] = true;
+
+  while (degree[v] != 0) {
+    degree[v]--;
+    int u = adj[v][degree[v]];
+    if (mark[v].find(u) != mark[v].end()) continue;
+    mark[v].insert(u);
+    mark[u].insert(v);
+    int next_edge = adj[v][degree[v]];
+    dfs_path(next_edge);
+  }
+  path.pb(v);
+}
+
+void find_path(int n, int start) {
+  path.clear();
+  mark.resize(n + 1);
+  visited.assign(n + 1, false);
+  dfs_path(start);
+}
+
