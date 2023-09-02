@@ -1,8 +1,8 @@
 // Description:
 // Indexed at zero
 // Given a N x M grid, where i represents the row and j the column, perform the following operations
-// update(j, i) - update the value of grid[i][j]
-// query(j1, j2, i1, i2) - return the sum of values inside the rectangle
+// update(i, j) - update the value of grid[i][j]
+// query(i1, j1, i2, j2) - return the sum of values inside the rectangle
 // defined by grid[i1][j1] and grid[i2][j2] inclusive
 
 // Problem:
@@ -16,31 +16,33 @@
 // 4 * M * N
 
 // How to use:
-// Segtree2D seg = Segtree2D(n, n);
-// vector<vector<int>> v(n, vector<int>(n));
+// Segtree2D seg = Segtree2D(n, m);
+// vector<vector<int>> v(n, vector<int>(m));
 // seg.build(v);
-
-// Notes
-// Indexed at zero
 
 struct Segtree2D {
     const int MAXN = 1025;
+    const int NEUTRAL = 0;
     int N, M;
     
     vector<vector<int>> seg;
-
+                   
     Segtree2D(int N, int M) {
         this->N = N;
         this->M = M;
-        seg.resize(2*MAXN, vector<int>(2*MAXN));
+        seg.assign(4*MAXN, vector<int>(4*MAXN, NEUTRAL));
     }
-    
+   
+    int f(int a, int b) {
+      return max(a, b);
+    }
+
     void buildY(int noX, int lX, int rX, int noY, int lY, int rY, vector<vector<int>> &v){
         if(lY == rY){
             if(lX == rX){
                 seg[noX][noY] = v[rX][rY];
             }else{
-                seg[noX][noY] = seg[2*noX+1][noY] + seg[2*noX+2][noY];
+                seg[noX][noY] = f(seg[2*noX+1][noY], seg[2*noX+2][noY]);
             }
         }else{
             int m = (lY+rY)/2;
@@ -48,7 +50,7 @@ struct Segtree2D {
             buildY(noX, lX, rX, 2*noY+1, lY, m, v);
             buildY(noX, lX, rX, 2*noY+2, m+1, rY, v);
     
-            seg[noX][noY] = seg[noX][2*noY+1] + seg[noX][2*noY+2];
+            seg[noX][noY] = f(seg[noX][2*noY+1], seg[noX][2*noY+2]);
         }
     }
     
@@ -105,7 +107,7 @@ struct Segtree2D {
         if(bY <= m) return queryY(noX, 2*noY+1, lY, m, aY, bY);
         if(m < aY) return queryY(noX, 2*noY+2, m+1, rY, aY, bY);
     
-        return queryY(noX, 2*noY+1, lY, m, aY, bY) + queryY(noX, 2*noY+2, m+1, rY, aY, bY);
+        return f(queryY(noX, 2*noY+1, lY, m, aY, bY), queryY(noX, 2*noY+2, m+1, rY, aY, bY));
     }
     
     int queryX(int noX, int lX, int rX, int aX, int bX, int aY, int bY){
@@ -116,14 +118,14 @@ struct Segtree2D {
         if(bX <= m) return queryX(2*noX+1, lX, m, aX, bX, aY, bY);
         if(m < aX) return queryX(2*noX+2, m+1, rX, aX, bX, aY, bY);
     
-        return queryX(2*noX+1, lX, m, aX, bX, aY, bY) + queryX(2*noX+2, m+1, rX, aX, bX, aY, bY);
+        return f(queryX(2*noX+1, lX, m, aX, bX, aY, bY), queryX(2*noX+2, m+1, rX, aX, bX, aY, bY));
     }
     
     void build(vector<vector<int>> &v) {
         buildX(0, 0, N - 1, v);
     }
     
-    int query(int aX, int bX, int aY, int bY) {
+    int query(int aX, int aY, int bX, int bY) {
         return queryX(0, 0, N - 1, aX, bX, aY, bY);
     }
     
