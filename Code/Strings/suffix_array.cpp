@@ -16,7 +16,7 @@
 // O(log n |p|) where |p| is the total size of the substrings queried
 //
 // Substring size: Queries to know how many times a given substring appears in a string
-// Binary search both for first ans last that is greater or equal
+// Binary search both for first and last that is greater or equal
 //
 // Number of different substrings:
 // A given suffix gives sz new substrings being sz the size of the suffix
