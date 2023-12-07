@@ -15,11 +15,12 @@ struct MergeSortTree {
   vector<vector<int>> tree;
   int n;
 
-  MergeSortTree(int n) : n(n) {
+  MergeSortTree(int n, vector<int> v) : n(n), v(v) {
     int sz = 1;
     while (sz < n) sz *= 2;
 
     tree.assign(2 * sz, vector<int>());
+    build(0, 0, n - 1, v)
   }
 
   vector<int> merge(vector<int>& a, vector<int>& b) {
@@ -80,10 +81,6 @@ struct MergeSortTree {
 
     int mid = ini + (fim - ini) / 2;
     return query(2 * pos + 1, ini, mid, p, q, val) + query(2 * pos + 2, mid + 1, fim, p, q, val); 
-  }
-
-  void build(vector<int>& v) {
-    build(0, 0, n - 1, v);
   }
 
   int query(int p, int q, int val) {
