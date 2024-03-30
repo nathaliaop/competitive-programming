@@ -1,58 +1,59 @@
-// achar uma subsequencia continua no array que a soma seja a maior possivel
-// nesse caso vc precisa multiplicar exatamente 1 elemento da subsequencia
-// e achar a maior soma com isso
+// Description:
+// Finds the maximum (or minimum) sum of some subarray of a given array
 
-int n, x, arr[MAX], tab[MAX][2]; // tab[maior resposta no intervalo][foi multiplicado ou não]
- 
-int dp(int i, bool mult) {
-    if (i == n-1) {
-        if (!mult) return arr[n-1]*x;
-        return arr[n-1];
-    }
-    if (tab[i][mult] != -1) return tab[i][mult];
-    
-    int res;
-    
-    if (mult) {
-        res = max(arr[i], arr[i] + dp(i+1, 1));
-    } 
-    else {
-        res = max({
-            arr[i]*x,
-            arr[i]*x + dp(i+1, 1),
-            arr[i] + dp(i+1, 0)
-        });
-    }
-    
-    return tab[i][mult] = res;
+// Problem:
+// https://leetcode.com/problems/maximum-subarray/description/
+
+// Complexity:
+// O(n)
+
+// Notes
+// To solve the minimum subarray problem, start the variable ans with INF and change the max operations to min operations
+// To not count the empty subarray as a subrray, start the variable ans with -INF
+// To get the biggest possible subarray with that sum, change if (curr > ans) to if (curr >= ans)
+// If the empty subarray is the answer, start and end will be equal to -1
+
+int ans = 0, curr = 0;
+int startidx = 0, start = -1, end = -1;
+
+for (int i = 0; i < n; i++) {
+  // MAXIMUM SUBARRAY PROBLEM
+  curr = max(curr + v[i], v[i]);
+  ans = max(ans, curr);
+  
+  /*
+  RECOVER INDEXES MAXIMUM SUBARRAY PROBLEM
+  if (curr + v[i] < v[i]) {
+    startidx = i;
+    curr = v[i];
+  }
+  else curr += v[i];
+  
+  if (curr > ans) {
+    ans = curr;
+    start = startidx;
+    end = i;
+  }
+  */
+
+  // MINIMUM SUBARRAY PROBLEM
+  // curr = min(curr + v[i], v[i]);
+  // ans = min(ans, curr);
+  
+  /*
+  // MINIMUM SUBARRAY PROBLEM
+  if (curr + v[i] > v[i]) {
+    startidx = i;
+    curr = v[i];
+  }
+  else curr += v[i];
+  
+  if (curr < ans) {
+    ans = curr;
+    start = startidx;
+    end = i;
+  }
+  */ 
 }
  
-int main() {
-    
-    memset(tab, -1, sizeof(tab));
-    
-    int ans = -oo;
-    for (int i = 0; i < n; i++) {
-        ans = max(ans, dp(i, 0));
-    }    
-    
-    return 0;
-}
-
-
-
-int ans = a[0], ans_l = 0, ans_r = 0;
-int sum = 0, minus_pos = -1;
-
-for (int r = 0; r < n; ++r) {
-    sum += a[r];
-    if (sum > ans) {
-        ans = sum;
-        ans_l = minus_pos + 1;
-        ans_r = r;
-    }
-    if (sum < 0) {
-        sum = 0;
-        minus_pos = r;
-    }
-}
+// cout << ans << ' ' << start << ' ' << end << '\n';
