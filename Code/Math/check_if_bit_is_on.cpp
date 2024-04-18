@@ -2,6 +2,7 @@
 #define msb(n) (32 - __builtin_clz(n))
 // #define msb(n) (64 - __builtin_clzll(n) )
 // popcount
+#define popcount(x) __builtin_popcountll((unsigned ll)x)
 // turn bit off
 
 bool bit_on(int n, int bit) {
