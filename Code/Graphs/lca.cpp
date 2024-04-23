@@ -15,6 +15,29 @@
 // To calculate the distance between two nodes use the following formula
 // level_peso[a] + level_peso[b] - 2*level_peso[lca(a, b)]
 
+// If you just need to know if a node is the ancestor of another node or not
+
+vector<vector<int>> adj;
+vector<int> tin, tout;
+
+void dfs(int v, int p, int& idx) {
+  tin[v] = idx++;
+  
+  for (auto u : adj[v]) {
+    if (u == p) continue;
+    dfs(u, v, idx);
+  }
+
+  tout[v] = idx++;
+}
+
+bool is_ancestor(int a, int b) {
+  return (tin[a] >= tin[b] && tout[b] <= tout[a])
+  || (tin[b] >= tin[a] && tout[a] <= tout[b]);
+}
+
+// LCA
+
 const int MAX = 2e5+10;
 const int BITS = 30;
  
