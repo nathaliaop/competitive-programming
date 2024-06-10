@@ -7,5 +7,5 @@ ll fexp(ll b, ll e) {
         e = e >> 1LL;
         b = (b * b) % MOD;
     }
-    return res % MOD;
+    return res;
 }
