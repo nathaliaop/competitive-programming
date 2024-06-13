@@ -1,11 +1,11 @@
-ll fexp(ll b, ll e, ll mod) {
+ll fexp(ll b, ll e) {
     ll res = 1;
-    b %= mod;
+    b %= MOD;
     while(e){ 
         if(e & 1LL)
-            res = (res * b) % mod;
+            res = (res * b) % MOD;
         e = e >> 1LL;
-        b = (b * b) % mod;
+        b = (b * b) % MOD;
     }
     return res;
 }
