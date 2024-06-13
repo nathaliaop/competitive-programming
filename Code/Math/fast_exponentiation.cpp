@@ -1,4 +1,4 @@
-ll fexp(ll b, ll e, int mod) {
+ll fexp(ll b, ll e, ll mod) {
     ll res = 1;
     b %= mod;
     while(e){ 
